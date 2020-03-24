@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         final ViewPager viewPager = findViewById(R.id.viewPager);
         PagerAdapter adapter = new TabPagerAdapter
-                (getSupportFragmentManager(),tabLayout.getTabCount());
+                (getSupportFragmentManager(),10000);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener
                 (new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
