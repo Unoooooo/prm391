@@ -1,8 +1,11 @@
-package com.example.fu.myapplication;
+package com.example.fu.myapplication.presenter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.example.fu.myapplication.view.AlarmFragment;
+import com.example.fu.myapplication.view.StopWatchFragment;
 
 public class TabPagerAdapter extends FragmentPagerAdapter {
 
