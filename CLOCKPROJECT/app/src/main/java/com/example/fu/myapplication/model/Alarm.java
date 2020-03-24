@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.SparseBooleanArray;
 
-public class Alarm  implements Parcelable {
+public class Alarm implements Parcelable {
 
     public static final int MON = 1;
     public static final int TUES = 2;
@@ -14,21 +14,19 @@ public class Alarm  implements Parcelable {
     public static final int SAT = 6;
     public static final int SUN = 7;
 
-    private final long id;
+    private final int id;
     private long time;
-    private String label;
-
+    private SparseBooleanArray daysInWeek;
     private boolean isEnabled;
 
-
-    private Alarm (Parcel in){
-
-        id = in.readLong();
-        time = in.readLong();
-        label = in.readString();
+    public Alarm(int id, long time, SparseBooleanArray daysInWeek, boolean isEnabled) {
+        this.id = id;
+        this.time = time;
+        this.daysInWeek = daysInWeek;
+        this.isEnabled = isEnabled;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -40,12 +38,12 @@ public class Alarm  implements Parcelable {
         this.time = time;
     }
 
-    public String getLabel() {
-        return label;
+    public SparseBooleanArray getDaysInWeek() {
+        return daysInWeek;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setDaysInWeek(SparseBooleanArray daysInWeek) {
+        this.daysInWeek = daysInWeek;
     }
 
     public boolean isEnabled() {
@@ -56,6 +54,15 @@ public class Alarm  implements Parcelable {
         isEnabled = enabled;
     }
 
+    private Alarm(Parcel in) {
+
+        id = in.readInt();
+        time = in.readLong();
+        daysInWeek = in.readSparseBooleanArray();
+        isEnabled = in.readByte() != 0;
+
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -63,10 +70,13 @@ public class Alarm  implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeLong(id);
+        parcel.writeInt(id);
         parcel.writeLong(time);
+        parcel.writeSparseBooleanArray(daysInWeek);
+        parcel.writeByte((byte) (isEnabled ? 1 : 0));
 
     }
+
     public static final Creator<Alarm> CREATOR = new Creator<Alarm>() {
         @Override
         public Alarm createFromParcel(Parcel in) {
@@ -79,5 +89,31 @@ public class Alarm  implements Parcelable {
         }
     };
 
+    public static SparseBooleanArray addDaysInWeekToAlarm(boolean... days) {
+
+        final SparseBooleanArray arrayDay = createDayFalseInWeek();
+
+        for (int i = 1; i <= 7; i++) {
+            arrayDay.put(i, days[i - 1]);
+        }
+
+        return arrayDay;
+
+    }
+
+    public static SparseBooleanArray createDayFalseInWeek() {
+
+        final SparseBooleanArray arrayDay = new SparseBooleanArray();
+        arrayDay.put(MON, false);
+        arrayDay.put(TUES, false);
+        arrayDay.put(WED, false);
+        arrayDay.put(THURS, false);
+        arrayDay.put(FRI, false);
+        arrayDay.put(SAT, false);
+        arrayDay.put(SUN, false);
+
+        return arrayDay;
+
+    }
 
 }
