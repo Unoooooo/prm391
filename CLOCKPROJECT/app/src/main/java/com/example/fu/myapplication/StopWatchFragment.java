@@ -12,12 +12,12 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Tab1Fragment.OnFragmentInteractionListener} interface
+ * {@link StopWatchFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Tab1Fragment#newInstance} factory method to
+ * Use the {@link StopWatchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Tab1Fragment extends Fragment {
+public class StopWatchFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +29,7 @@ public class Tab1Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public Tab1Fragment() {
+    public StopWatchFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +39,11 @@ public class Tab1Fragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Tab1Fragment.
+     * @return A new instance of fragment AlarmFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Tab1Fragment newInstance(String param1, String param2) {
-        Tab1Fragment fragment = new Tab1Fragment();
+    public static StopWatchFragment newInstance(String param1, String param2) {
+        StopWatchFragment fragment = new StopWatchFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,7 +64,7 @@ public class Tab1Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tab1, container, false);
+        return inflater.inflate(R.layout.fragment_alarm, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
