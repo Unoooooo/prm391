@@ -1,8 +1,13 @@
 package com.example.fu.myapplication.model;
 
+import android.icu.util.LocaleData;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.SparseBooleanArray;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class Alarm implements Parcelable {
 
@@ -114,6 +119,13 @@ public class Alarm implements Parcelable {
 
         return arrayDay;
 
+    }
+    //DEMO
+    public static List<Alarm> creatAlarmListDEMO(){
+        List<Alarm> list= new ArrayList<>();
+        list.add(new Alarm(1, 11,addDaysInWeekToAlarm(true,false,true,false,false,false,false),true));
+        list.add(new Alarm(2, 18,addDaysInWeekToAlarm(true,true,true,false,false,false,false),true));
+        return list;
     }
 
 }

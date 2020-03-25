@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="8dp"
+    android:background="#e2e3eb"
+    android:clickable="true"
+    android:foreground="?selectableItemBackground"
+    android:orientation="horizontal">
+
+
+    <TextView
+        android:id="@+id/lblTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:text="7:00"
+        android:textSize="@android:dimen/app_icon_size" />
+
+    <TextView
+        android:id="@+id/lblAmPm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/lblTime"
+        android:layout_centerVertical="true"
+        android:text="AM/PM" />
+
+    <TextView
+        android:id="@+id/lblDaysInWeek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/lblAmPm"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="50px"
+        android:text="M Tu W Th F Sa Su" />
+
+    <Switch
+        android:id="@+id/switchOnOffAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true" />
+
+
+</RelativeLayout>
