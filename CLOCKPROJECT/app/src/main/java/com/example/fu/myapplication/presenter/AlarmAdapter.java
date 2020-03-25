@@ -57,11 +57,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<ViewAlarmHolder> {
             public void onClick(View view) {
                 Switch onOffAlarm = view.findViewById(R.id.switchOnOffAlarm);
 
-                if (onOffAlarm.isEnabled()) {
-
-                } else {
-
-                }
+               
 
             }
         });
