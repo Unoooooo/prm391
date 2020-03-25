@@ -39,8 +39,9 @@ public class AlarmFragment extends Fragment {
         }
 
 
-        AlarmAdapter alarmAdapter = new AlarmAdapter(list);
+        AlarmAdapter alarmAdapter = new AlarmAdapter(list,getFragmentManager());
         recyclerView.setAdapter(alarmAdapter);
+
         return view;
     }
 

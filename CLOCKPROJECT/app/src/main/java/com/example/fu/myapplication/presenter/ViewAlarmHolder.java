@@ -1,12 +1,13 @@
 package com.example.fu.myapplication.presenter;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.fu.myapplication.R;
+import com.example.fu.myapplication.view.EditTimeDialog;
 
 public class ViewAlarmHolder extends RecyclerView.ViewHolder {
     private TextView time, amPm, days;
@@ -18,21 +19,10 @@ public class ViewAlarmHolder extends RecyclerView.ViewHolder {
         amPm = itemView.findViewById(R.id.lblAmPm);
         days = itemView.findViewById(R.id.lblDaysInWeek);
         switchOnOffAlarm = itemView.findViewById(R.id.switchOnOffAlarm);
-        //action click on Alarm row
-        time.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO
-            }
-        });
-        //action click on button switch on/off
-        switchOnOffAlarm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
+
     }
+
 
 
     public Switch getSwitchOnOffAlarm() {
