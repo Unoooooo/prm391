@@ -1,5 +1,8 @@
 package com.example.fu.myapplication.view;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,38 +17,58 @@ import com.example.fu.myapplication.R;
 import com.example.fu.myapplication.data.DataBaseHelper;
 import com.example.fu.myapplication.model.Alarm;
 import com.example.fu.myapplication.presenter.AlarmAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.fu.myapplication.util.AlarmUtils;
 
 
 public class AlarmFragment extends Fragment {
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
+    private AlarmAdapter alarmAdapter;
+    private SendAlarmViewModel sendAlarmViewModel;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_alarm, container, false);
 
         recyclerView = view.findViewById(R.id.recycleListView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        List<Alarm> list = new ArrayList<>();
-        list = DataBaseHelper.getInstance(this.getContext()).getAlarmArray();
-        if (list.size() == 0) {
-            list = Alarm.creatAlarmListDEMO();
-        }
-
-
-        AlarmAdapter alarmAdapter = new AlarmAdapter(list,getFragmentManager());
-        recyclerView.setAdapter(alarmAdapter);
-
+        createTabListAlarm();
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        sendAlarmViewModel = ViewModelProviders.of(getActivity()).get(SendAlarmViewModel.class);
+        sendAlarmViewModel.getListchanged().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if(aBoolean!=null){
+                    createTabListAlarm();
+                    //reset live data
+                    sendAlarmViewModel.getListchanged().postValue(null);
+                }
+            }
+        });
+    }
+
+    private void createTabListAlarm() {
+
+        //data list Alarm
+        AlarmAdapter.mAlarmList = DataBaseHelper.getInstance(this.getContext()).getAlarmArray();
+        if (AlarmAdapter.mAlarmList.size() == 0) {
+            AlarmAdapter.mAlarmList = Alarm.creatAlarmListDEMO();
+        }
+        alarmAdapter = new AlarmAdapter(AlarmAdapter.mAlarmList, getFragmentManager(),this.getContext());
+         //move to new Alarm item
+        alarmAdapter.notifyItemChanged(AlarmAdapter.mAlarmList.size() - 1);
+        recyclerView.scrollToPosition(AlarmAdapter.mAlarmList.size() - 1);
+        recyclerView.setAdapter(alarmAdapter);
+
+    }
 
 
 }

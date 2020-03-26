@@ -19,7 +19,7 @@ public class Alarm implements Parcelable {
     public static final int SAT = 6;
     public static final int SUN = 7;
 
-    private final int id;
+    private int id;
     private long time;
     private SparseBooleanArray daysInWeek;
     private boolean isEnabled;
@@ -29,6 +29,9 @@ public class Alarm implements Parcelable {
         this.time = time;
         this.daysInWeek = daysInWeek;
         this.isEnabled = isEnabled;
+    }
+
+    public Alarm() {
     }
 
     public int getId() {
@@ -123,9 +126,19 @@ public class Alarm implements Parcelable {
     //DEMO
     public static List<Alarm> creatAlarmListDEMO(){
         List<Alarm> list= new ArrayList<>();
-        list.add(new Alarm(1, 11,addDaysInWeekToAlarm(true,false,true,false,false,false,false),true));
-        list.add(new Alarm(2, 18,addDaysInWeekToAlarm(true,true,true,false,false,false,false),true));
+        list.add(new Alarm(1, 11,addDaysInWeekToAlarm(true,false,true,false,true,false,true),true));
+        list.add(new Alarm(2, 18,addDaysInWeekToAlarm(false,true,false,true,false,true,false),true));
         return list;
     }
 
+
+    @Override
+    public String toString() {
+        return "Alarm{" +
+                "id=" + id +
+                ", time=" + time +
+                ", daysInWeek=" + daysInWeek +
+                ", isEnabled=" + isEnabled +
+                '}';
+    }
 }

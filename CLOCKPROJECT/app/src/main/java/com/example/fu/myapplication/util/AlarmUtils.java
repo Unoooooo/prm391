@@ -11,7 +11,9 @@ import android.util.SparseBooleanArray;
 import com.example.fu.myapplication.model.Alarm;
 
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,11 +33,20 @@ public final class AlarmUtils {
 
     public static final String[] NAME_DAY_ARRAY = {"MON", "TUES", "WED", "THURS", "FRI", "SAT", "SUN"};
 
-    private static final SimpleDateFormat TIME_FORMAT =
-            new SimpleDateFormat("h:mm", Locale.getDefault());
+    private static final SimpleDateFormat TIME_FORMAT_H_MM =
+            new SimpleDateFormat("hh:mm", Locale.getDefault());
+
+    private static final SimpleDateFormat TIME_FORMAT_H_MM_AMPM =
+            new SimpleDateFormat("h:mm a", Locale.getDefault());
 
     private static final SimpleDateFormat AM_PM_FORMAT =
             new SimpleDateFormat("a", Locale.getDefault());
+
+    private static final SimpleDateFormat MINUTE_FORMAT =
+            new SimpleDateFormat("mm", Locale.getDefault());
+
+    private static final SimpleDateFormat HOUR_FORMAT =
+            new SimpleDateFormat("h", Locale.getDefault());
 
 
     public static ContentValues toContentValues(Alarm alarm) {
@@ -79,13 +90,31 @@ public final class AlarmUtils {
     }
 
     //Hour in am/pm (1-12)
-    public static String convertTimeToHour12(long time) {
-        return TIME_FORMAT.format(time);
+    public static String convertTimeToHour12AmPm(long time) {
+        return TIME_FORMAT_H_MM_AMPM.format(time);
     }
+    public static String convertTimeToHour12(long time) {
+        return TIME_FORMAT_H_MM.format(time);
+    }
+
+
 
     //Minute in hour
     public static String convertTimeToAmPm(long time) {
         return AM_PM_FORMAT.format(time);
+    }
+
+    public static String convertTimeToMinute(long time) {
+        return MINUTE_FORMAT.format(time);
+    }
+
+    public static String convertTimeToHour(long time) {
+        return HOUR_FORMAT.format(time);
+    }
+    public  static Long getLongTimeSysDate(){
+        Calendar c = Calendar.getInstance();
+
+       return c.getTimeInMillis();
     }
 
 
