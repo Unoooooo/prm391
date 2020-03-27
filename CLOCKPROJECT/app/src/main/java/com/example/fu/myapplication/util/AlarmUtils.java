@@ -48,6 +48,9 @@ public final class AlarmUtils {
     private static final SimpleDateFormat HOUR_FORMAT =
             new SimpleDateFormat("h", Locale.getDefault());
 
+    private static final SimpleDateFormat DAY_FORMAT =
+            new SimpleDateFormat("EEE", Locale.getDefault());
+
 
     public static ContentValues toContentValues(Alarm alarm) {
         final ContentValues contentValues = new ContentValues();
@@ -111,6 +114,13 @@ public final class AlarmUtils {
     public static String convertTimeToHour(long time) {
         return HOUR_FORMAT.format(time);
     }
+
+
+    public static String convertTimeToDay(long time) {
+        return DAY_FORMAT.format(time);
+    }
+
+
     public  static Long getLongTimeSysDate(){
         Calendar c = Calendar.getInstance();
 

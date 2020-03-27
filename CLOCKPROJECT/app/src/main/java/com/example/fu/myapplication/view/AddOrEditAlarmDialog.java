@@ -46,7 +46,6 @@ public class AddOrEditAlarmDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.add_or_edit_alarm, container, false);
         lblTime = view.findViewById(R.id.lblTime);
         btnDel = view.findViewById(R.id.btnDel);
@@ -54,7 +53,6 @@ public class AddOrEditAlarmDialog extends DialogFragment {
         getArguments().clear();
         int hour = 0;
         int minute = 0;
-
         if (alarmBundle != null) {
             btnDel.setVisibility(View.VISIBLE);
             lblTime.setText(AlarmUtils.convertTimeToHour12AmPm(alarmBundle.getTime()));
@@ -68,20 +66,45 @@ public class AddOrEditAlarmDialog extends DialogFragment {
             ((ToggleButton) view.findViewById(R.id.fri)).setChecked(daysBolean.get(5));
             ((ToggleButton) view.findViewById(R.id.sat)).setChecked(daysBolean.get(6));
             ((ToggleButton) view.findViewById(R.id.sun)).setChecked(daysBolean.get(7));
-            mon = daysBolean.get(1);
-            tue = daysBolean.get(2);
-            wed = daysBolean.get(3);
-            thu = daysBolean.get(2);
-            fri = daysBolean.get(4);
-            sat = daysBolean.get(5);
-            sun = daysBolean.get(6);
-
         } else {
             btnDel.setVisibility(View.INVISIBLE);
             Calendar c = Calendar.getInstance();
-            lblTime.setText(AlarmUtils.convertTimeToHour12AmPm(c.getTimeInMillis()));
-
-            timeForEdit = c.getTimeInMillis();
+            Long timeSysDate = c.getTimeInMillis();
+            lblTime.setText(AlarmUtils.convertTimeToHour12AmPm(timeSysDate));
+            timeForEdit = timeSysDate;
+            String daySys = null;
+            daySys = AlarmUtils.convertTimeToDay(timeSysDate);
+                        switch (daySys) {
+                //ToggleButton view
+                case "Mon":
+                    ((ToggleButton) view.findViewById(R.id.mon)).setChecked(true);
+                    break;
+                case "Tue":
+                    ((ToggleButton) view.findViewById(R.id.tues)).setChecked(true);
+                    break;
+                case "Wed":
+                    ((ToggleButton) view.findViewById(R.id.wed)).setChecked(true);
+                    break;
+                case "Thu":
+                    ((ToggleButton) view.findViewById(R.id.thurs)).setChecked(true);
+                    break;
+                case "Fri":
+                    ((ToggleButton) view.findViewById(R.id.fri)).setChecked(true);
+                    break;
+                case "Sat":
+                    ((ToggleButton) view.findViewById(R.id.sat)).setChecked(true);
+                    break;
+                case "Sun":
+                    ((ToggleButton) view.findViewById(R.id.sun)).setChecked(true);
+                    break;
+            }
+            mon = ((ToggleButton) view.findViewById(R.id.mon)).isChecked();
+            tue = ((ToggleButton) view.findViewById(R.id.tues)).isChecked();
+            wed = ((ToggleButton) view.findViewById(R.id.wed)).isChecked();
+            thu = ((ToggleButton) view.findViewById(R.id.thurs)).isChecked();
+            fri = ((ToggleButton) view.findViewById(R.id.fri)).isChecked();
+            sat = ((ToggleButton) view.findViewById(R.id.sat)).isChecked();
+            sun = ((ToggleButton) view.findViewById(R.id.sun)).isChecked();
         }
         lblTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,8 +125,6 @@ public class AddOrEditAlarmDialog extends DialogFragment {
                 newFragment.show(getFragmentManager(), null);
             }
         });
-
-
         return view;
     }
 
@@ -116,8 +137,6 @@ public class AddOrEditAlarmDialog extends DialogFragment {
             @Override
             public void onClick(View view) {
                 //insert Alarm to DB
-
-
                 if (alarmBundle != null) {
                     Alarm newAlarm = new Alarm(alarmBundle.getId(), timeForEdit, Alarm.addDaysInWeekToAlarm(mon, tue, wed, thu, fri, sat, sun), true);
                     DataBaseHelper.getInstance(getContext()).updateAlarm(newAlarm);
@@ -125,8 +144,6 @@ public class AddOrEditAlarmDialog extends DialogFragment {
                     Alarm newAlarm = new Alarm(0, timeForEdit, Alarm.addDaysInWeekToAlarm(mon, tue, wed, thu, fri, sat, sun), true);
                     DataBaseHelper.getInstance(getContext()).insertAlarm(newAlarm);
                 }
-
-
                 //out
                 sendAlarmViewModel = ViewModelProviders.of(getActivity()).get(SendAlarmViewModel.class);
                 sendAlarmViewModel.getListchanged().postValue(true);
@@ -157,8 +174,6 @@ public class AddOrEditAlarmDialog extends DialogFragment {
             }
         });
 
-
-
         sendAlarmViewModel = ViewModelProviders.of(getActivity()).get(SendAlarmViewModel.class);
         sendAlarmViewModel.getTimeMutableLiveData().observe(this, new Observer<Long>() {
             @Override
@@ -173,11 +188,9 @@ public class AddOrEditAlarmDialog extends DialogFragment {
                     sendAlarmViewModel.getTimeMutableLiveData().postValue(null);
 
                 }
-
-
             }
         });
-        //
+        // set listener for toggleButton
         CompoundButton.OnCheckedChangeListener listener =
                 new CompoundButton.OnCheckedChangeListener() {
                     @Override
