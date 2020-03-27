@@ -53,7 +53,7 @@
 
 
             android:text="Mon"
-            android:textOff="OFF"
+            android:textOff="Mon"
             android:textOn="Mon" />
 
         <ToggleButton
@@ -64,7 +64,7 @@
             android:background="@drawable/button_dayinweek"
             android:checked="false"
             android:text="Tue"
-            android:textOff="OFF"
+            android:textOff="Tue"
             android:textOn="Tue" />
 
         <ToggleButton
@@ -75,7 +75,7 @@
             android:background="@drawable/button_dayinweek"
             android:checked="false"
             android:text="Wed"
-            android:textOff="OFF"
+            android:textOff="Wed"
             android:textOn="Wed" />
 
         <ToggleButton
@@ -86,7 +86,7 @@
             android:background="@drawable/button_dayinweek"
             android:checked="false"
             android:text="Thu"
-            android:textOff="OFF"
+            android:textOff="Thu"
             android:textOn="Thu" />
 
         <ToggleButton
@@ -97,7 +97,7 @@
             android:background="@drawable/button_dayinweek"
             android:checked="false"
             android:text="Fri"
-            android:textOff="OFF"
+            android:textOff="Fri"
             android:textOn="Fri" />
 
         <ToggleButton
@@ -108,7 +108,7 @@
             android:background="@drawable/button_dayinweek"
             android:checked="false"
             android:text="Sat"
-            android:textOff="OFF"
+            android:textOff="Sat"
             android:textOn="Sat" />
 
         <ToggleButton
@@ -119,7 +119,7 @@
             android:background="@drawable/button_dayinweek"
             android:checked="false"
             android:text="Sun"
-            android:textOff="OFF"
+            android:textOff="Sun"
             android:textOn="Sun" />
 
     </LinearLayout>
