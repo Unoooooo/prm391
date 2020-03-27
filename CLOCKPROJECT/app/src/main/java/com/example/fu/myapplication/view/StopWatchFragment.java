@@ -3,10 +3,13 @@ package com.example.fu.myapplication.view;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Chronometer;
 
 import com.example.fu.myapplication.R;
 
@@ -24,6 +27,7 @@ public class StopWatchFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private long timeWhenStopped = 0;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,7 +70,60 @@ public class StopWatchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_alarm, container, false);
+        View view = inflater.inflate(R.layout.fragment_stop_watch, container, false);
+        // Inflate the layout for this fragment
+        final Chronometer chronometer =(Chronometer) view.findViewById(R.id.chronometer);
+        final Button start = (Button) view.findViewById(R.id.start);
+        final Button stop = (Button) view.findViewById(R.id.stop);
+        final Button reset = (Button) view.findViewById(R.id.reset);
+        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener(){
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                long time = SystemClock.elapsedRealtime() - chronometer.getBase();
+                int hours = (int) (time / 3600000);
+                int minutes = (int) (time - hours * 3600000) / 60000;
+                int seconds = (int) (time - hours * 3600000 - minutes * 60000) / 1000;
+                String t = (hours < 10 ? "0"+hours: hours)+":"+(minutes < 10 ? "0"+minutes: minutes)
+                        +":"+ (seconds < 10 ? "0"+seconds: seconds);
+                chronometer.setText(t);
+            }
+        });
+//        chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometer.setText("00:00:00");
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chronometer.setBase(SystemClock.elapsedRealtime()+timeWhenStopped);
+                chronometer.start();
+                stop.setEnabled(true);
+                start.setEnabled(false);
+                reset.setEnabled(true);
+            }
+        });
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timeWhenStopped = chronometer.getBase() - SystemClock.elapsedRealtime();
+                chronometer.stop();
+                stop.setEnabled(false);
+                start.setEnabled(true);
+                reset.setEnabled(true);
+
+            }
+        });
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timeWhenStopped=0;
+                chronometer.setBase(SystemClock.elapsedRealtime());
+                chronometer.setText("00:00:00");
+                chronometer.stop();
+                stop.setEnabled(true);
+                start.setEnabled(true);
+                reset.setEnabled(false);
+            }
+        });
+        return  view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

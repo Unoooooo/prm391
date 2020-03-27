@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity  {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +56,12 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                if(tab.getPosition()==0){
+                    fab.show();
+                }
+                if(tab.getPosition()==1){
+                    fab.hide();
+                }
             }
 
             @Override
