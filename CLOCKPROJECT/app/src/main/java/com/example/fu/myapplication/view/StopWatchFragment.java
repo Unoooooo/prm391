@@ -86,6 +86,7 @@ public class StopWatchFragment extends Fragment {
                 String t = (hours < 10 ? "0"+hours: hours)+":"+(minutes < 10 ? "0"+minutes: minutes)
                         +":"+ (seconds < 10 ? "0"+seconds: seconds);
                 chronometer.setText(t);
+
             }
         });
 //        chronometer.setBase(SystemClock.elapsedRealtime());
@@ -118,7 +119,7 @@ public class StopWatchFragment extends Fragment {
                 chronometer.setBase(SystemClock.elapsedRealtime());
                 chronometer.setText("00:00:00");
                 chronometer.stop();
-                stop.setEnabled(true);
+                stop.setEnabled(false);
                 start.setEnabled(true);
                 reset.setEnabled(false);
             }

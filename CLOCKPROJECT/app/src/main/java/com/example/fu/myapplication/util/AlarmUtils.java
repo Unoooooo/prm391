@@ -11,7 +11,6 @@ import android.util.SparseBooleanArray;
 import com.example.fu.myapplication.model.Alarm;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -33,10 +32,10 @@ public final class AlarmUtils {
 
     public static final String[] NAME_DAY_ARRAY = {"MON", "TUES", "WED", "THURS", "FRI", "SAT", "SUN"};
 
-    private static final SimpleDateFormat TIME_FORMAT_H_MM =
+    private static final SimpleDateFormat TIME_FORMAT_HH_MM_12 =
             new SimpleDateFormat("hh:mm", Locale.getDefault());
 
-    private static final SimpleDateFormat TIME_FORMAT_H_MM_AMPM =
+    private static final SimpleDateFormat TIME_FORMAT_H_MM_12AMPM =
             new SimpleDateFormat("h:mm a", Locale.getDefault());
 
     private static final SimpleDateFormat AM_PM_FORMAT =
@@ -50,6 +49,9 @@ public final class AlarmUtils {
 
     private static final SimpleDateFormat DAY_FORMAT =
             new SimpleDateFormat("EEE", Locale.getDefault());
+
+    private static final SimpleDateFormat TIME_FORMAT_HH_MM_24 =
+            new SimpleDateFormat("d:HH:mm:ss", Locale.getDefault());
 
 
     public static ContentValues toContentValues(Alarm alarm) {
@@ -94,13 +96,16 @@ public final class AlarmUtils {
 
     //Hour in am/pm (1-12)
     public static String convertTimeToHour12AmPm(long time) {
-        return TIME_FORMAT_H_MM_AMPM.format(time);
+        return TIME_FORMAT_H_MM_12AMPM.format(time);
     }
+
     public static String convertTimeToHour12(long time) {
-        return TIME_FORMAT_H_MM.format(time);
+        return TIME_FORMAT_HH_MM_12.format(time);
     }
 
-
+    public static String convertTimeToHour24(long time) {
+        return TIME_FORMAT_HH_MM_24.format(time);
+    }
 
     //Minute in hour
     public static String convertTimeToAmPm(long time) {
@@ -115,18 +120,15 @@ public final class AlarmUtils {
         return HOUR_FORMAT.format(time);
     }
 
-
     public static String convertTimeToDay(long time) {
         return DAY_FORMAT.format(time);
     }
 
-
-    public  static Long getLongTimeSysDate(){
+    public static Long getLongTimeSysDate() {
         Calendar c = Calendar.getInstance();
 
-       return c.getTimeInMillis();
+        return c.getTimeInMillis();
     }
-
 
     public static Spannable convertSparseBooleanArrayToString(SparseBooleanArray days) {
         SpannableStringBuilder resultDays = new SpannableStringBuilder();
