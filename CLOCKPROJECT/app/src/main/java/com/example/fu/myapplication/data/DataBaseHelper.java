@@ -29,7 +29,6 @@ public final class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COL_SUN = "sun";
     public static final String COL_IS_ENABLED = "is_enabled";
 
-
     //Use Instance for first Load
     private static DataBaseHelper sInstance = null;
 
@@ -79,7 +78,22 @@ public final class DataBaseHelper extends SQLiteOpenHelper {
         return db.delete(TABLE_NAME, where, whereArgs);
     }
 
+    public List<Long> selectTimeEqualsSystem() {
+        List<Long> times = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select  * from alarms where is_enabled = 1 ", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            times.add(cursor.getLong(cursor.getColumnIndex("time")));
+            cursor.moveToNext();
+        }
+
+        return times;
+    }
+
+
     public int updateAlarm(Alarm alarm) {
+
         SQLiteDatabase db = this.getWritableDatabase();
         final String where = COL_ID + "=?";
         final String[] whereArgs = new String[]{Long.toString(alarm.getId())};
