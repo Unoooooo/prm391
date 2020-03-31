@@ -74,7 +74,7 @@ public class AddOrEditAlarmDialog extends DialogFragment {
             timeForEdit = timeSysDate;
             String daySys = null;
             daySys = AlarmUtils.convertTimeToDay(timeSysDate);
-                        switch (daySys) {
+            switch (daySys) {
                 //ToggleButton view
                 case "Mon":
                     ((ToggleButton) view.findViewById(R.id.mon)).setChecked(true);
@@ -98,14 +98,20 @@ public class AddOrEditAlarmDialog extends DialogFragment {
                     ((ToggleButton) view.findViewById(R.id.sun)).setChecked(true);
                     break;
             }
-            mon = ((ToggleButton) view.findViewById(R.id.mon)).isChecked();
-            tue = ((ToggleButton) view.findViewById(R.id.tues)).isChecked();
-            wed = ((ToggleButton) view.findViewById(R.id.wed)).isChecked();
-            thu = ((ToggleButton) view.findViewById(R.id.thurs)).isChecked();
-            fri = ((ToggleButton) view.findViewById(R.id.fri)).isChecked();
-            sat = ((ToggleButton) view.findViewById(R.id.sat)).isChecked();
-            sun = ((ToggleButton) view.findViewById(R.id.sun)).isChecked();
+
         }
+        mon = ((ToggleButton) view.findViewById(R.id.mon)).isChecked();
+        tue = ((ToggleButton) view.findViewById(R.id.tues)).isChecked();
+        wed = ((ToggleButton) view.findViewById(R.id.wed)).isChecked();
+        thu = ((ToggleButton) view.findViewById(R.id.thurs)).isChecked();
+        fri = ((ToggleButton) view.findViewById(R.id.fri)).isChecked();
+        sat = ((ToggleButton) view.findViewById(R.id.sat)).isChecked();
+        sun = ((ToggleButton) view.findViewById(R.id.sun)).isChecked();
+
+
+
+
+
         lblTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
