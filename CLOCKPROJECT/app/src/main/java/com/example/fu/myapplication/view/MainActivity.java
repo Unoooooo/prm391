@@ -19,9 +19,7 @@ import com.example.fu.myapplication.R;
 import com.example.fu.myapplication.data.DataBaseHelper;
 import com.example.fu.myapplication.model.Alarm;
 import com.example.fu.myapplication.presenter.TabPagerAdapter;
-import com.example.fu.myapplication.service.AlarmReceiver;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
