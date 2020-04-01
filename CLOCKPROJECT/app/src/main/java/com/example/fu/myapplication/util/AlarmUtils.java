@@ -175,4 +175,15 @@ public final class AlarmUtils {
         return false;
     }
 
+    public static boolean checkFalseDayAll(boolean ...days){
+        for (int i = 0; i < days.length; i++) {
+                if(days[i]){
+                    return true;
+                }
+        }
+        return false;
+    }
+
+
+
 }

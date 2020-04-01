@@ -140,10 +140,21 @@ public class AddOrEditAlarmDialog extends DialogFragment {
                 //insert Alarm to DB
                 Alarm newAlarm;
                 if (alarmBundle != null) {
-                    newAlarm = new Alarm(alarmBundle.getId(), timeForEdit, Alarm.addDaysInWeekToAlarm(mon, tue, wed, thu, fri, sat, sun), true);
+                    if (!AlarmUtils.checkFalseDayAll(mon, tue, wed, thu, fri, sat, sun)) {
+                        setDayNowToAlarm();
+
+                    }
+                        newAlarm = new Alarm(alarmBundle.getId(), timeForEdit, Alarm.addDaysInWeekToAlarm(mon, tue, wed, thu, fri, sat, sun), true);
+
+
                     DataBaseHelper.getInstance(getContext()).updateAlarm(newAlarm);
                 } else {
-                    newAlarm = new Alarm(0, timeForEdit, Alarm.addDaysInWeekToAlarm(mon, tue, wed, thu, fri, sat, sun), true);
+                    if (!AlarmUtils.checkFalseDayAll(mon, tue, wed, thu, fri, sat, sun)) {
+                        setDayNowToAlarm();
+                    }
+
+                        newAlarm = new Alarm(0, timeForEdit, Alarm.addDaysInWeekToAlarm(mon, tue, wed, thu, fri, sat, sun), true);
+
                     DataBaseHelper.getInstance(getContext()).insertAlarm(newAlarm);
                     // set change id for new alarm
                     int idNew = DataBaseHelper.getInstance(getContext()).selectMaxId();
@@ -233,6 +244,45 @@ public class AddOrEditAlarmDialog extends DialogFragment {
         ((ToggleButton) view.findViewById(R.id.fri)).setOnCheckedChangeListener(listener);
         ((ToggleButton) view.findViewById(R.id.sat)).setOnCheckedChangeListener(listener);
         ((ToggleButton) view.findViewById(R.id.sun)).setOnCheckedChangeListener(listener);
+    }
+
+    public void setDayNowToAlarm(){
+
+
+        String dayName = AlarmUtils.convertTimeToDay(Calendar.getInstance().getTimeInMillis());
+        switch (dayName) {
+
+            case "Mon":
+                mon=true;
+                break;
+
+            case "Tue":
+                tue=true;
+                break;
+
+            case "Wed":
+                wed=true;
+                break;
+
+            case "Thu":
+                thu=true;
+                break;
+
+            case "Fri":
+                fri=true;
+                break;
+
+            case "Sat":
+                sat=true;
+                break;
+
+
+            case "Sun":
+                sun=true;
+                break;
+
+        }
+
     }
 
 
