@@ -1,8 +1,6 @@
 package com.example.fu.myapplication.view;
 
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,15 +13,12 @@ import android.view.ViewGroup;
 
 import com.example.fu.myapplication.R;
 import com.example.fu.myapplication.data.DataBaseHelper;
-import com.example.fu.myapplication.model.Alarm;
 import com.example.fu.myapplication.presenter.AlarmAdapter;
-import com.example.fu.myapplication.util.AlarmUtils;
 
 
 public class AlarmFragment extends Fragment {
     private RecyclerView recyclerView;
     private AlarmAdapter alarmAdapter;
-
 
 
     @Nullable
@@ -46,7 +41,7 @@ public class AlarmFragment extends Fragment {
         MainActivity.sendAlarmViewModel.getListchanged().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
-                if(aBoolean!=null){
+                if (aBoolean != null) {
                     createTabListAlarm();
                     //reset live data
                     MainActivity.sendAlarmViewModel.getListchanged().postValue(null);
@@ -60,10 +55,10 @@ public class AlarmFragment extends Fragment {
         //data list Alarm
         AlarmAdapter.mAlarmList = DataBaseHelper.getInstance(this.getContext()).getAlarmArray();
         if (AlarmAdapter.mAlarmList.size() == 0) {
-            AlarmAdapter.mAlarmList = Alarm.creatAlarmListDEMO();
+            //AlarmAdapter.mAlarmList = Alarm.creatAlarmListDEMO();
         }
-        alarmAdapter = new AlarmAdapter(AlarmAdapter.mAlarmList, getFragmentManager(),this.getContext());
-         //move to new Alarm item
+        alarmAdapter = new AlarmAdapter(AlarmAdapter.mAlarmList, getFragmentManager(), this.getContext());
+        //move to new Alarm item
         alarmAdapter.notifyItemChanged(AlarmAdapter.mAlarmList.size() - 1);
         recyclerView.scrollToPosition(AlarmAdapter.mAlarmList.size() - 1);
         recyclerView.setAdapter(alarmAdapter);

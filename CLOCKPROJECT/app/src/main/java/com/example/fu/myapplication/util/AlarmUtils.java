@@ -73,7 +73,7 @@ public final class AlarmUtils {
         if (cursorAlarm == null) return new ArrayList<>();
         List<Alarm> alarms = new ArrayList<>();
         cursorAlarm.moveToFirst();
-        while (cursorAlarm.isAfterLast() == false) {
+        while (!cursorAlarm.isAfterLast()) {
             int id = cursorAlarm.getInt(cursorAlarm.getColumnIndex(COL_ID));
             long time = cursorAlarm.getLong(cursorAlarm.getColumnIndex(COL_TIME));
             boolean mon = cursorAlarm.getInt(cursorAlarm.getColumnIndex(COL_MON)) == 1;
@@ -124,11 +124,6 @@ public final class AlarmUtils {
         return DAY_FORMAT.format(time);
     }
 
-    public static Long getLongTimeSysDate() {
-        Calendar c = Calendar.getInstance();
-
-        return c.getTimeInMillis();
-    }
 
     public static Spannable convertSparseBooleanArrayToString(SparseBooleanArray days) {
         SpannableStringBuilder resultDays = new SpannableStringBuilder();
@@ -145,6 +140,39 @@ public final class AlarmUtils {
             }
         }
         return resultDays;
+    }
+
+    public static boolean checkItDayNow(Alarm alarm) {
+        SparseBooleanArray sparseBooleanArray = alarm.getDaysInWeek();
+
+        String dayName = convertTimeToDay(Calendar.getInstance().getTimeInMillis());
+        switch (dayName) {
+
+            case "Mon":
+                if (sparseBooleanArray.get(1)) return true;
+
+            case "Tue":
+                if (sparseBooleanArray.get(2)) return true;
+
+            case "Wed":
+                if (sparseBooleanArray.get(3)) return true;
+
+            case "Thu":
+                if (sparseBooleanArray.get(4)) return true;
+
+            case "Fri":
+                if (sparseBooleanArray.get(5)) return true;
+
+            case "Sat":
+                if (sparseBooleanArray.get(6)) return true;
+
+            case "Sun":
+                if (sparseBooleanArray.get(7)) return true;
+
+        }
+
+
+        return false;
     }
 
 }

@@ -9,9 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
-import com.example.fu.myapplication.model.Alarm;
 import com.example.fu.myapplication.util.AlarmUtils;
 
 import java.util.Calendar;

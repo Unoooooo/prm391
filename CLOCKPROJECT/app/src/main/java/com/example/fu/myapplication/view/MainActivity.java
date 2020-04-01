@@ -16,19 +16,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.fu.myapplication.R;
-import com.example.fu.myapplication.data.DataBaseHelper;
 import com.example.fu.myapplication.model.Alarm;
 import com.example.fu.myapplication.presenter.TabPagerAdapter;
-
-import java.util.List;
+import com.example.fu.myapplication.service.AlarmReceiver;
+import com.example.fu.myapplication.util.AlarmUtils;
 
 public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
-    public static int MODE_ADD = 1;
-    public static int MODE_EDIT = 2;
-
-    public  static SendAlarmViewModel sendAlarmViewModel;
+    public static SendAlarmViewModel sendAlarmViewModel;
     public static AlarmManager alarmManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,35 +82,34 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        List<Alarm> listTimeAlarm = DataBaseHelper.getInstance(getApplicationContext()).getAlarmArrayOn();
         alarmManager = (AlarmManager) this.getSystemService(ALARM_SERVICE);
-        for (int i = 0; i < listTimeAlarm.size(); i++) {
-            Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), listTimeAlarm.get(i).getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            alarmManager.set(AlarmManager.RTC_WAKEUP, listTimeAlarm.get(i).getTime(), pendingIntent);
-
-        }
-
-
-
+//        List<Alarm> listTimeAlarm = DataBaseHelper.getInstance(getApplicationContext()).getAlarmArrayOn();
+//        for (int i = 0; i < listTimeAlarm.size(); i++) {
+//            Intent notificationIntent  = new Intent(MainActivity.this, AlarmReceiver.class);
+//            notificationIntent.putExtra("noti", listTimeAlarm.get(i).getId());
+//            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), listTimeAlarm.get(i).getId(), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//            alarmManager.setExact(AlarmManager.RTC_WAKEUP, listTimeAlarm.get(i).getTime(), pendingIntent);
+//
+//        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
+
         sendAlarmViewModel = ViewModelProviders.of(this).get(SendAlarmViewModel.class);
         sendAlarmViewModel.getAlarmMutableLiveData_DELETE().observe(this, new Observer<Alarm>() {
             @Override
             public void onChanged(@Nullable Alarm alarm) {
-                 if(alarm!=null){
-                     Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
-                     PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                     alarmManager.cancel(pendingIntent);
-                     //default
-                     sendAlarmViewModel.getAlarmMutableLiveData_DELETE().postValue(null);
-                 }
-
+                if (alarm != null) {
+                    Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+                    intent.putExtra("noti", alarm.getId());
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    alarmManager.cancel(pendingIntent);
+                    //default
+                    sendAlarmViewModel.getAlarmMutableLiveData_DELETE().postValue(null);
+                }
 
 
             }
@@ -121,10 +117,15 @@ public class MainActivity extends AppCompatActivity {
         sendAlarmViewModel.getAlarmMutableLiveData_ADD().observe(this, new Observer<Alarm>() {
             @Override
             public void onChanged(@Nullable Alarm alarm) {
-                if(alarm!=null){
-                    Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.getTime(), pendingIntent);
+                if (alarm != null) {
+
+                    if (AlarmUtils.checkItDayNow(alarm)) {
+                        Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+                        intent.putExtra("noti", alarm.getId());
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarm.getTime(), pendingIntent);
+                    }
+
 
                     //default
                     sendAlarmViewModel.getAlarmMutableLiveData_ADD().postValue(null);
@@ -133,4 +134,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
 }

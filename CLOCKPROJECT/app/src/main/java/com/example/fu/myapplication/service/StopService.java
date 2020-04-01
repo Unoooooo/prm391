@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationManagerCompat;
 
-import com.example.fu.myapplication.view.AlarmReceiver;
-
 
 public class StopService extends IntentService {
 
