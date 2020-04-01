@@ -1,0 +1,29 @@
+package com.example.fu.myapplication.service;
+
+import android.app.IntentService;
+import android.content.Intent;
+import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationManagerCompat;
+
+import com.example.fu.myapplication.view.AlarmReceiver;
+
+
+public class StopService extends IntentService {
+
+
+    public StopService() {
+        super(StopService.class.getSimpleName());
+    }
+
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+        String action = intent.getAction();
+
+        if ("StopSound".equals(action)) {
+            // TODO: handle action StopSound.
+            AlarmService.mediaPlayer.stop();
+            // If you want to cancel the notification:
+            NotificationManagerCompat.from(this).cancel(AlarmReceiver.NOTIFICATION_ID);
+        }
+    }
+}

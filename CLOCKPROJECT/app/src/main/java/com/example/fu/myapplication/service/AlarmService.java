@@ -1,29 +1,27 @@
 package com.example.fu.myapplication.service;
 
-import android.app.IntentService;
+import android.app.Service;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 
-import com.example.fu.myapplication.data.DataBaseHelper;
-import com.example.fu.myapplication.model.Alarm;
+import com.example.fu.myapplication.R;
 
-import java.util.ArrayList;
-import java.util.List;
 
-public class AlarmService extends IntentService {
-    public static final String ALARMS_EXTRA = "alarms_extra";
-
-    public AlarmService(String name) {
-        super(name);
+public class AlarmService extends Service {
+    public static MediaPlayer mediaPlayer;
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
-    @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-        List<Alarm> alarmList = DataBaseHelper.getInstance(this).getAlarmArray();
-        final Intent i = new Intent();
 
-        i.putParcelableArrayListExtra(ALARMS_EXTRA, new ArrayList<>(alarmList));
-        LocalBroadcastManager.getInstance(this).sendBroadcast(i);
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        mediaPlayer = MediaPlayer.create(this, R.raw.chuong);
+        mediaPlayer.start();
+        return START_NOT_STICKY;
     }
 }
