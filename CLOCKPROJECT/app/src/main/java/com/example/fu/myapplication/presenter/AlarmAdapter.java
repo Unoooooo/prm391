@@ -1,6 +1,7 @@
 package com.example.fu.myapplication.presenter;
 
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,7 +30,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<ViewAlarmHolder> {
     public AlarmAdapter(List<Alarm> mAlarmList, FragmentManager fragmentManager, Context context) {
         this.mAlarmList = mAlarmList;
         this.fragmentManager = fragmentManager;
-        this.context=context;
+        this.context = context;
     }
 
     @NonNull
@@ -64,8 +65,17 @@ public class AlarmAdapter extends RecyclerView.Adapter<ViewAlarmHolder> {
             @Override
             public void onClick(View view) {
                 Alarm editAlarm = mAlarmList.get(position);
-                editAlarm.setEnabled(viewHolder.getSwitchOnOffAlarm().isChecked());
+                boolean status = viewHolder.getSwitchOnOffAlarm().isChecked();
+                editAlarm.setEnabled(status);
                 DataBaseHelper.getInstance(context).updateAlarm(editAlarm);
+
+                if(status){
+                    MainActivity.sendAlarmViewModel.getAlarmMutableLiveData_ADD().postValue(editAlarm);
+                }else{
+                    MainActivity.sendAlarmViewModel.getAlarmMutableLiveData_DELETE().postValue(editAlarm);
+                }
+
+
             }
         });
 

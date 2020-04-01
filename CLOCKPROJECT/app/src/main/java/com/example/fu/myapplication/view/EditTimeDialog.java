@@ -34,7 +34,7 @@ public class EditTimeDialog extends DialogFragment {
             hour = c.get(Calendar.HOUR_OF_DAY);
             minute = c.get(Calendar.MINUTE);
         } else {
-            hour = Integer.parseInt(AlarmUtils.convertTimeToHour(time));
+            hour = Integer.parseInt(AlarmUtils.convertTimeToHour24(time));
             minute = Integer.parseInt(AlarmUtils.convertTimeToMinute(time));
         }
         return new TimePickerDialog(getActivity(), timeSetListener, hour, minute,

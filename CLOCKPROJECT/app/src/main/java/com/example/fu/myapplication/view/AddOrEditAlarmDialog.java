@@ -2,7 +2,6 @@ package com.example.fu.myapplication.view;
 
 
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,7 +18,6 @@ import android.widget.ToggleButton;
 import com.example.fu.myapplication.R;
 import com.example.fu.myapplication.data.DataBaseHelper;
 import com.example.fu.myapplication.model.Alarm;
-import com.example.fu.myapplication.presenter.AlarmAdapter;
 import com.example.fu.myapplication.util.AlarmUtils;
 
 import java.util.Calendar;
@@ -30,7 +28,7 @@ public class AddOrEditAlarmDialog extends DialogFragment {
     private TextView lblTime;
     private Button btnDel;
 
-    private SendAlarmViewModel sendAlarmViewModel;
+
     private boolean mon;
     private boolean tue;
     private boolean wed;
@@ -109,9 +107,6 @@ public class AddOrEditAlarmDialog extends DialogFragment {
         sun = ((ToggleButton) view.findViewById(R.id.sun)).isChecked();
 
 
-
-
-
         lblTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,16 +138,20 @@ public class AddOrEditAlarmDialog extends DialogFragment {
             @Override
             public void onClick(View view) {
                 //insert Alarm to DB
+                Alarm newAlarm;
                 if (alarmBundle != null) {
-                    Alarm newAlarm = new Alarm(alarmBundle.getId(), timeForEdit, Alarm.addDaysInWeekToAlarm(mon, tue, wed, thu, fri, sat, sun), true);
+                    newAlarm = new Alarm(alarmBundle.getId(), timeForEdit, Alarm.addDaysInWeekToAlarm(mon, tue, wed, thu, fri, sat, sun), true);
                     DataBaseHelper.getInstance(getContext()).updateAlarm(newAlarm);
                 } else {
-                    Alarm newAlarm = new Alarm(0, timeForEdit, Alarm.addDaysInWeekToAlarm(mon, tue, wed, thu, fri, sat, sun), true);
+                    newAlarm = new Alarm(0, timeForEdit, Alarm.addDaysInWeekToAlarm(mon, tue, wed, thu, fri, sat, sun), true);
                     DataBaseHelper.getInstance(getContext()).insertAlarm(newAlarm);
+                    // set change id for new alarm
+                    int idNew = DataBaseHelper.getInstance(getContext()).selectMaxId();
+                    newAlarm.setId(idNew);
                 }
                 //out
-                sendAlarmViewModel = ViewModelProviders.of(getActivity()).get(SendAlarmViewModel.class);
-                sendAlarmViewModel.getListchanged().postValue(true);
+                MainActivity.sendAlarmViewModel.getListchanged().postValue(true);
+                MainActivity.sendAlarmViewModel.getAlarmMutableLiveData_ADD().postValue(newAlarm);
                 getDialog().dismiss();
             }
         });
@@ -174,14 +173,15 @@ public class AddOrEditAlarmDialog extends DialogFragment {
 
                 DataBaseHelper.getInstance(getContext()).deleteAlarm(alarmBundle);
                 //out
-                sendAlarmViewModel = ViewModelProviders.of(getActivity()).get(SendAlarmViewModel.class);
-                sendAlarmViewModel.getListchanged().postValue(true);
+
+                MainActivity.sendAlarmViewModel.getListchanged().postValue(true);
+                MainActivity.sendAlarmViewModel.getAlarmMutableLiveData_DELETE().postValue(alarmBundle);
                 getDialog().dismiss();
             }
         });
 
-        sendAlarmViewModel = ViewModelProviders.of(getActivity()).get(SendAlarmViewModel.class);
-        sendAlarmViewModel.getTimeMutableLiveData().observe(this, new Observer<Long>() {
+
+        MainActivity.sendAlarmViewModel.getTimeMutableLiveData().observe(this, new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long timeLive) {
                 if (timeLive != null) {
@@ -191,7 +191,7 @@ public class AddOrEditAlarmDialog extends DialogFragment {
                         alarmBundle.setTime(timeLive);
                     }
                     //reset live data
-                    sendAlarmViewModel.getTimeMutableLiveData().postValue(null);
+                    MainActivity.sendAlarmViewModel.getTimeMutableLiveData().postValue(null);
 
                 }
             }

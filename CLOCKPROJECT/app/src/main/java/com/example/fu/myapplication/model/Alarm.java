@@ -34,6 +34,10 @@ public class Alarm implements Parcelable {
     public Alarm() {
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

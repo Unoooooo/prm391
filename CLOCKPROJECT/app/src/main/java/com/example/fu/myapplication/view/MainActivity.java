@@ -2,36 +2,35 @@ package com.example.fu.myapplication.view;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import com.example.fu.myapplication.R;
 import com.example.fu.myapplication.data.DataBaseHelper;
 import com.example.fu.myapplication.model.Alarm;
-import com.example.fu.myapplication.presenter.AlarmAdapter;
 import com.example.fu.myapplication.presenter.TabPagerAdapter;
-import com.example.fu.myapplication.util.AlarmUtils;
+import com.example.fu.myapplication.service.AlarmReceiver;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     public static int MODE_ADD = 1;
     public static int MODE_EDIT = 2;
-    AlarmManager alarmManager;
-    PendingIntent pendingIntent;
+
+    public  static SendAlarmViewModel sendAlarmViewModel;
+    public static AlarmManager alarmManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,19 +85,54 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        List<Long> listTimeAlarm = new ArrayList<>();
-        Calendar cal = Calendar.getInstance();
-        String systemTime = AlarmUtils.convertTimeToHour12AmPm(cal.getTimeInMillis());
-        listTimeAlarm = DataBaseHelper.getInstance(getApplicationContext()).selectTimeEqualsSystem();
+
+
+        List<Alarm> listTimeAlarm = DataBaseHelper.getInstance(getApplicationContext()).getAlarmArrayOn();
         alarmManager = (AlarmManager) this.getSystemService(ALARM_SERVICE);
         for (int i = 0; i < listTimeAlarm.size(); i++) {
             Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
-            pendingIntent = PendingIntent.getBroadcast(this, i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, listTimeAlarm.get(i), pendingIntent);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), listTimeAlarm.get(i).getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            alarmManager.set(AlarmManager.RTC_WAKEUP, listTimeAlarm.get(i).getTime(), pendingIntent);
+
         }
+
 
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        sendAlarmViewModel = ViewModelProviders.of(this).get(SendAlarmViewModel.class);
+        sendAlarmViewModel.getAlarmMutableLiveData_DELETE().observe(this, new Observer<Alarm>() {
+            @Override
+            public void onChanged(@Nullable Alarm alarm) {
+                 if(alarm!=null){
+                     Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+                     PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                     alarmManager.cancel(pendingIntent);
+                     //default
+                     sendAlarmViewModel.getAlarmMutableLiveData_DELETE().postValue(null);
+                 }
 
+
+
+            }
+        });
+        sendAlarmViewModel.getAlarmMutableLiveData_ADD().observe(this, new Observer<Alarm>() {
+            @Override
+            public void onChanged(@Nullable Alarm alarm) {
+                if(alarm!=null){
+                    Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.getTime(), pendingIntent);
+
+                    //default
+                    sendAlarmViewModel.getAlarmMutableLiveData_ADD().postValue(null);
+                }
+            }
+        });
+
+    }
 }

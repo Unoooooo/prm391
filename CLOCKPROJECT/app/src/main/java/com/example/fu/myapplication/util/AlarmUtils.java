@@ -51,7 +51,7 @@ public final class AlarmUtils {
             new SimpleDateFormat("EEE", Locale.getDefault());
 
     private static final SimpleDateFormat TIME_FORMAT_HH_MM_24 =
-            new SimpleDateFormat("d:HH:mm:ss", Locale.getDefault());
+            new SimpleDateFormat("H", Locale.getDefault());
 
 
     public static ContentValues toContentValues(Alarm alarm) {

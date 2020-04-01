@@ -115,5 +115,32 @@ public final class DataBaseHelper extends SQLiteOpenHelper {
         return alarmList;
     }
 
+    public List<Alarm> getAlarmArrayOn() {
+        List<Alarm> alarmList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery("select  * from alarms where is_enabled = 1 ", null);
+            alarmList = AlarmUtils.convertAlarmCursortoList(cursor);
+        } catch (Exception e) {
+
+        } finally {
+            if (cursor != null && !cursor.isClosed()) cursor.close();
+        }
+        return alarmList;
+    }
+
+    public int selectMaxId() {
+        int idMax=0;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select max("+COL_ID+") from "+TABLE_NAME, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            idMax = cursor.getInt(0);
+            cursor.moveToNext();
+        }
+
+        return idMax;
+    }
 
 }

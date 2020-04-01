@@ -23,7 +23,7 @@ import com.example.fu.myapplication.util.AlarmUtils;
 public class AlarmFragment extends Fragment {
     private RecyclerView recyclerView;
     private AlarmAdapter alarmAdapter;
-    private SendAlarmViewModel sendAlarmViewModel;
+
 
 
     @Nullable
@@ -42,14 +42,14 @@ public class AlarmFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        sendAlarmViewModel = ViewModelProviders.of(getActivity()).get(SendAlarmViewModel.class);
-        sendAlarmViewModel.getListchanged().observe(this, new Observer<Boolean>() {
+
+        MainActivity.sendAlarmViewModel.getListchanged().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
                 if(aBoolean!=null){
                     createTabListAlarm();
                     //reset live data
-                    sendAlarmViewModel.getListchanged().postValue(null);
+                    MainActivity.sendAlarmViewModel.getListchanged().postValue(null);
                 }
             }
         });
