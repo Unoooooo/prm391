@@ -17,11 +17,11 @@ public class StopService extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         String action = intent.getAction();
 
-        if ("StopSound".equals(action)) {
+        if ("CLOSE".equals(action)) {
             // TODO: handle action StopSound.
             AlarmService.mediaPlayer.stop();
             // If you want to cancel the notification:
-            NotificationManagerCompat.from(this).cancel(AlarmReceiver.NOTIFICATION_ID);
+            NotificationManagerCompat.from(this).cancel(1);
         }
     }
 }
