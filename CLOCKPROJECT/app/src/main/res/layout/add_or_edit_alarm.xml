@@ -18,8 +18,8 @@
         android:layout_height="65dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="6dp"
-        android:gravity="center_horizontal"
         android:text="7:00 AM/PM"
+        android:paddingLeft="15dp"
         android:textSize="@android:dimen/app_icon_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
@@ -31,12 +31,10 @@
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="357dp"
-
-
         android:layout_height="41dp"
-
-
         android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,10 +46,7 @@
             android:layout_height="42dp"
             android:layout_marginHorizontal="5px"
             android:background="@drawable/button_dayinweek"
-
             android:checked="false"
-
-
             android:text="Mon"
             android:textOff="Mon"
             android:textOn="Mon" />
@@ -131,32 +126,35 @@
         android:layout_marginStart="19dp"
         android:layout_marginTop="19dp"
         android:layout_marginEnd="28dp"
+        android:background="@drawable/buttondis"
         android:text="@android:string/ok"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/btnCancel"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnCancel"
-        android:layout_width="88dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="19dp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:background="@drawable/buttondis"
         android:text="@android:string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnDel"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/btnDel"
-        android:layout_width="88dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="20dp"
+        android:background="@drawable/buttondis"
         android:text="Delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
