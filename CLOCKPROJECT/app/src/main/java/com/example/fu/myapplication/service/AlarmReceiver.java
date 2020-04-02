@@ -11,7 +11,7 @@ import android.util.Log;
 import com.example.fu.myapplication.R;
 
 public class AlarmReceiver extends BroadcastReceiver {
-    public static int NOTIFICATION_ID = 0;
+    public static int NOTIFICATION_ID = 1;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -21,7 +21,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         //
 
-        NOTIFICATION_ID = intent.getExtras().getInt("noti");
+//        NOTIFICATION_ID = intent.getExtras().getInt("noti");
         Intent stopSoundIntent = new Intent(context,
                 StopService.class)
                 .setAction("CLOSE");
@@ -34,7 +34,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setContentTitle("ALARM")
                 .setContentText("ARE YOU READY ?")
                 .setAutoCancel(true).addAction(new NotificationCompat.Action(R.drawable.clock,
-                        "StopSound", stopSoundPendingIntent));
+                        "CLOSE", stopSoundPendingIntent));
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
 
