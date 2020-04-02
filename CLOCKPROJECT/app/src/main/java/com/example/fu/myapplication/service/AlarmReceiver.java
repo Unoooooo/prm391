@@ -21,7 +21,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         //
 
-//        NOTIFICATION_ID = intent.getExtras().getInt("noti");
+        NOTIFICATION_ID = intent.getExtras().getInt("noti");
         Intent stopSoundIntent = new Intent(context,
                 StopService.class)
                 .setAction("CLOSE");
