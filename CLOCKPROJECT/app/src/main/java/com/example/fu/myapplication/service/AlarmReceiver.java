@@ -24,7 +24,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         NOTIFICATION_ID = intent.getExtras().getInt("noti");
         Intent stopSoundIntent = new Intent(context,
                 StopService.class)
-                .setAction("StopSound");
+                .setAction("CLOSE");
 
         PendingIntent stopSoundPendingIntent = PendingIntent.getService(context, 0,
                 stopSoundIntent, PendingIntent.FLAG_ONE_SHOT);
