@@ -1,10 +1,13 @@
 package com.example.fu.myapplication.view;
 
 import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -81,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         alarmManager = (AlarmManager) this.getSystemService(ALARM_SERVICE);
 //        List<Alarm> listTimeAlarm = DataBaseHelper.getInstance(getApplicationContext()).getAlarmArrayOn();
 //        for (int i = 0; i < listTimeAlarm.size(); i++) {
@@ -92,12 +94,24 @@ public class MainActivity extends AppCompatActivity {
 //
 //        }
     }
+    private  void createNotificationChannel(){
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+            CharSequence name = "Remider Channel";
+            String description = "abc";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("HAHA",name,importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-
+        createNotificationChannel();
         sendAlarmViewModel = ViewModelProviders.of(this).get(SendAlarmViewModel.class);
         sendAlarmViewModel.getAlarmMutableLiveData_DELETE().observe(this, new Observer<Alarm>() {
             @Override
