@@ -148,6 +148,7 @@ public class AddOrEditAlarmDialog extends DialogFragment {
 
 
                     DataBaseHelper.getInstance(getContext()).updateAlarm(newAlarm);
+
                 } else {
                     if (!AlarmUtils.checkFalseDayAll(mon, tue, wed, thu, fri, sat, sun)) {
                         setDayNowToAlarm();

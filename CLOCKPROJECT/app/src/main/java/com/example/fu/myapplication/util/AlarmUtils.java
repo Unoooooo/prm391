@@ -149,25 +149,44 @@ public final class AlarmUtils {
         switch (dayName) {
 
             case "Mon":
-                if (sparseBooleanArray.get(1)) return true;
+                if (sparseBooleanArray.get(1)) {
+                    return true;
+                }
+                break;
 
             case "Tue":
-                if (sparseBooleanArray.get(2)) return true;
-
+                if (sparseBooleanArray.get(2)){
+                    return true;
+                }
+break;
             case "Wed":
-                if (sparseBooleanArray.get(3)) return true;
+                if (sparseBooleanArray.get(3)){
+                    return true;
+                }break;
 
             case "Thu":
-                if (sparseBooleanArray.get(4)) return true;
+                if (sparseBooleanArray.get(4)) {
+                    return true;
+                }
+                break;
 
             case "Fri":
-                if (sparseBooleanArray.get(5)) return true;
+                if (sparseBooleanArray.get(5)){
+                    return true;
+                }
+                break;
 
             case "Sat":
-                if (sparseBooleanArray.get(6)) return true;
+                if (sparseBooleanArray.get(6)) {
+                    return true;
+                }
+                break;
 
             case "Sun":
-                if (sparseBooleanArray.get(7)) return true;
+                if (sparseBooleanArray.get(7)){
+                    return true;
+                }
+                break;
 
         }
 

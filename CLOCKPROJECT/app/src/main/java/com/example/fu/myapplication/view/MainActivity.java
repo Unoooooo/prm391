@@ -138,6 +138,11 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("noti", alarm.getId());
                         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
                         alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarm.getTime(), pendingIntent);
+                    }else{
+                        Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+                        intent.putExtra("noti", alarm.getId());
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        alarmManager.cancel(pendingIntent);
                     }
 
 
